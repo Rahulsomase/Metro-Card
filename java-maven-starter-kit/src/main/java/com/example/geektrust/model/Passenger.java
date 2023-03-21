@@ -1,5 +1,6 @@
 package com.example.geektrust.model;
 
+//@Author - Rahul Somase
 public class Passenger {
 
     private String metroCardNumber;

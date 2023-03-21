@@ -1,5 +1,7 @@
 package com.example.geektrust.model;
 
+//@Author - Rahul Somase
+
 import com.example.geektrust.constant.Constants;
 
 public class PassengerCheckIn {
