@@ -6,13 +6,16 @@ import com.example.geektrust.service.CardExecutionService;
 import com.example.geektrust.service.CardExecutionServiceImpl;
 import com.example.geektrust.utility.FileProcessingUtility;
 
+import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 
 //@Author - Rahul Somase
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String args[]) {
         /*
         Sample code to read from file passed as command line argument
         try {
@@ -27,21 +30,26 @@ public class Main {
         } catch (IOException e) {
         }
         */
-            try {
-                if (args.length != 1) {
-                    throw new ProcessException("Input file not supplied. Please provide the input file");
-                }
-                String filePath = args[0];
-                processMetroCard(filePath);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        try {
+            if (args.length != 1) {
+                throw new ProcessException("Input file not supplied. Please provide the input file");
             }
+            String filePath = args[0];
+            processMetroCard(filePath);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        public static String processMetroCard(String filePath) throws ProcessException {
-           FileProcessingUtility reader = new FileProcessingUtility(filePath);
-            List<InputCommands> commands = reader.getCommandsFromFile();
-            CardExecutionService cardService=new CardExecutionServiceImpl();
-            String output=cardService.executeCommands(commands);
-            return output;
+    }
+    public static String processMetroCard(String filePath) throws ProcessException {
+        FileProcessingUtility reader = new FileProcessingUtility(filePath);
+        List<InputCommands> commands = new ArrayList<>();
+        try {
+            commands = reader.getCommandsFromFile();
+        } catch (ProcessException e) {
+            throw new RuntimeException(e);
+        }
+        CardExecutionService cardService=new CardExecutionServiceImpl();
+        String output=cardService.executeCommands(commands);
+        return output;
         }
     }
